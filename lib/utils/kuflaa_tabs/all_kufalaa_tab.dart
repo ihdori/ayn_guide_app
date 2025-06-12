@@ -1,0 +1,27 @@
+import 'package:ayn/utils/kafeel_details_dialog.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class AllKufalaaTab extends ConsumerWidget {
+  AllKufalaaTab({super.key, required this.data});
+  final List<Map<String, dynamic>> data;
+
+  @override
+  Widget build(BuildContext context, ref) {
+    return ListView.separated(
+      itemCount: data.length,
+      separatorBuilder: (_, __) => const Divider(),
+      itemBuilder: (context, index) {
+        final kafeel = data[index];
+
+        return ListTile(
+          title: Text(kafeel['kafeel_name']),
+          subtitle: Text(kafeel['kafeel_phone_number']),
+          onTap: () {
+            kafeelDetailsDialog(context, ref, kafeel);
+          },
+        );
+      },
+    );
+  }
+}
