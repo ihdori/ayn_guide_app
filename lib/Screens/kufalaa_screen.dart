@@ -1,14 +1,15 @@
 import 'package:ayn/constants/colors.dart';
 import 'package:ayn/data/kuflaa_db.dart';
 import 'package:ayn/providers/db_provider.dart';
+import 'package:ayn/providers/kufalaa_providers/isCatigoryTableCreatedProvider.dart';
 import 'package:ayn/utils/custom_large_button.dart';
 import 'package:ayn/utils/custom_text_field.dart';
 import 'package:ayn/utils/kuflaa_numbers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class KuflaaScreen extends ConsumerWidget {
-  KuflaaScreen({super.key});
+class kufalaaScreen extends ConsumerWidget {
+  kufalaaScreen({super.key});
   KufalaaDatabaseHelper kufalaaDb = KufalaaDatabaseHelper();
   GlobalKey<FormState> _kufalaaKey = GlobalKey<FormState>();
 
@@ -75,7 +76,20 @@ class KuflaaScreen extends ConsumerWidget {
               text: "عرض كل الكفلاء",
             ),
             CustomLargeButton(
-              onTap: () {
+              onTap: () async {
+                final isCatitgoryTableCreated = ref.watch(
+                  isCatigoryTableCreatedProvider,
+                );
+                if (!isCatitgoryTableCreated) {
+                  await kufalaaDb.insert('''
+  INSERT INTO kafeel_catigory (catigory_name)
+VALUES 
+  ("في الانتظار"),
+  ("تم التواصل");
+    ''');
+                  ref.read(isCatigoryTableCreatedProvider.notifier).state =
+                      true;
+                }
                 showNewKafeelBottomSheet(context);
               },
               text: "اضافة كفيل",
@@ -189,7 +203,7 @@ class KuflaaScreen extends ConsumerWidget {
                       )
                     ''');
 
-                              // ref.refresh(kufalaaDbProvider);
+                              ref.refresh(kufalaaDbProvider);
                               Navigator.pop(context);
                             }
                           },

@@ -14,11 +14,7 @@ class ContactedKufalaa extends ConsumerWidget {
       itemBuilder: (context, index) {
         final kafeel = data[index];
 
-        return ListTile(
-          title: Text(kafeel['kafeel_name']),
-          subtitle: Text(kafeel['kafeel_phone_number']),
-          onTap: () {},
-        );
+        return ListTile(title: Text(kafeel['kafeel_name']), onTap: () {});
       },
     );
   }

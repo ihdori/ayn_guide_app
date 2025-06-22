@@ -23,7 +23,7 @@ class CustomTextField extends StatelessWidget {
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
             return 'الحقل فارغ';
-          } else if (value.length < 8) {
+          } else if (value.length < 5) {
             return "يجب كتابة المعلومات بشكل كامل";
           }
           return null;

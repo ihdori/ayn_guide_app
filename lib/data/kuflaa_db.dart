@@ -44,53 +44,13 @@ category_id INTEGER DEFAULT 1
       )
     ''');
 
-    //     await db.execute('''
-    // CREATE TABLE kafeel_catigory(
-    //   id INTEGER PRIMARY KEY AUTOINCREMENT,
-    //   catigory_name TEXT
-    // )
-    // ''');
-
-    //     intCatigoryData() async {
-    //       Database? db = await database;
-    //       int response = await db.rawInsert('''
-    // INSEERT INTO kafeel_catigory (catigory_name)
-    // VALUES (
-    // "في الانتظار",
-    // "تم التواصل",
-    // )
-    // ''');
-    //       return response;
-    //     }
-
-    //     await intCatigoryData();
     await db.execute('''
-      CREATE TABLE contacted_this_month (
+    CREATE TABLE kafeel_catigory(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      kafeel_id INTEGER NOT NULL,
-      contact_date TEXT NOT NULL,
-      FOREIGN KEY (kafeel_id) REFERENCES all_kufalaa(id)
-    );
+      catigory_name TEXT
+    )
     ''');
 
-    await db.execute('''
-      CREATE TABLE remaining_kufalaa (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      kafeel_id INTEGER NOT NULL,
-      added_date TEXT NOT NULL,
-      FOREIGN KEY (kafeel_id) REFERENCES all_kufalaa(id)
-    );
-    ''');
-
-    await db.execute('''
-      CREATE TABLE kufalaa_with_debt (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      kafeel_id INTEGER NOT NULL,
-      total_debt INTEGER NOT NULL DEFAULT 0,
-      last_update TEXT NOT NULL,
-      FOREIGN KEY (kafeel_id) REFERENCES all_kufalaa(id)
-    );
-    ''');
     // Create indexes for better query performance
     await db.execute('''
       CREATE INDEX idx_kafeel_name ON all_kufalaa(kafeel_name)
@@ -103,10 +63,6 @@ category_id INTEGER DEFAULT 1
     await db.execute('''
       CREATE INDEX idx_is_has_debt ON all_kufalaa(is_has_debt)
     ''');
-
-    // await db.execute('''
-    //   CREATE INDEX idx_is_completed ON all_kufalaa(is_completed)
-    // ''');
   }
 
   // CRUD Operations

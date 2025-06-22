@@ -16,7 +16,6 @@ class AllKufalaaTab extends ConsumerWidget {
 
         return ListTile(
           title: Text(kafeel['kafeel_name']),
-          subtitle: Text(kafeel['kafeel_phone_number']),
           onTap: () {
             kafeelDetailsDialog(context, ref, kafeel);
           },

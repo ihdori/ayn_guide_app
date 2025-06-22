@@ -30,10 +30,10 @@ class KuflaaDataScreen extends ConsumerWidget {
 
               child: TabBar(
                 tabs: [
-                  Tab(text: 'الكل'),
+                  Tab(text: 'المتبقون'),
                   Tab(text: 'المديونون'),
                   Tab(text: 'تم التواصل'),
-                  Tab(text: 'المتبقون'),
+                  Tab(text: 'الكل'),
                 ],
               ),
             ),
@@ -43,28 +43,29 @@ class KuflaaDataScreen extends ConsumerWidget {
 
                 child: TabBarView(
                   children: [
-                    //all Kufalaa
-                    kufalaaData.when(
+                    //Remainings
+                    remainigKufalaa.when(
                       data: (data) {
                         if (data.isEmpty) {
                           return const Center(
-                            child: Text("لا توجد بيانات حالياً"),
+                            child: Text("لا يوجد كفلاء حالياً"),
                           );
                         }
 
-                        return AllKufalaaTab(data: data);
+                        return RemainingKufalaaTab(data: data);
                       },
                       error: (error, _) =>
                           Center(child: Text("حدث خطأ: $error")),
                       loading: () =>
                           const Center(child: CircularProgressIndicator()),
                     ),
+
                     //Has Debts
                     kufalaaWithDebt.when(
                       data: (data) {
                         if (data.isEmpty) {
                           return const Center(
-                            child: Text("لا توجد بيانات حالياً"),
+                            child: Text("لا يوجد كفلاء حالياً"),
                           );
                         }
 
@@ -80,7 +81,7 @@ class KuflaaDataScreen extends ConsumerWidget {
                       data: (data) {
                         if (data.isEmpty) {
                           return const Center(
-                            child: Text("لا توجد بيانات حالياً"),
+                            child: Text("لا يوجد كفلاء حالياً"),
                           );
                         }
 
@@ -91,16 +92,17 @@ class KuflaaDataScreen extends ConsumerWidget {
                       loading: () =>
                           const Center(child: CircularProgressIndicator()),
                     ),
-                    //Remainings
-                    remainigKufalaa.when(
+
+                    //all Kufalaa
+                    kufalaaData.when(
                       data: (data) {
                         if (data.isEmpty) {
                           return const Center(
-                            child: Text("لا توجد بيانات حالياً"),
+                            child: Text("لا يوجد كفلاء حالياً"),
                           );
                         }
 
-                        return RemainingKufalaaTab(data: data);
+                        return AllKufalaaTab(data: data);
                       },
                       error: (error, _) =>
                           Center(child: Text("حدث خطأ: $error")),

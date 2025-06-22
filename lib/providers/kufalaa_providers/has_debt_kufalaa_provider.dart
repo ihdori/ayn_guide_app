@@ -5,5 +5,5 @@ final KufalaaWithDebtProvider = FutureProvider<List<Map<String, dynamic>>>((
   ref,
 ) async {
   final db = await ref.watch(kufalaaDbProvider.future);
-  return await db.rawQuery("SELECT * FROM kufalaa_with_debt");
+  return await db.rawQuery("SELECT * FROM all_kufalaa WHERE is_has_debt = 1");
 });

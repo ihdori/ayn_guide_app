@@ -5,5 +5,5 @@ final contactedKufalaaProvider = FutureProvider<List<Map<String, dynamic>>>((
   ref,
 ) async {
   final db = await ref.watch(kufalaaDbProvider.future);
-  return await db.rawQuery("SELECT * FROM contacted_this_month");
+  return await db.rawQuery("SELECT * FROM all_kufalaa WHERE category_id = 2");
 });
