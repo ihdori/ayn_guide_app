@@ -7,17 +7,27 @@ class CustomTextField extends StatelessWidget {
     required this.hint,
     this.textInputType = TextInputType.text,
     required this.controller,
+    required this.validator,
   });
   String lable;
   String hint;
   TextInputType textInputType;
   TextEditingController controller;
+  Function validator;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return 'الحقل فارغ';
+          } else if (value.length < 8) {
+            return "يجب كتابة المعلومات بشكل كامل";
+          }
+          return null;
+        },
         style: TextStyle(fontSize: 18),
         controller: controller,
         keyboardType: textInputType,

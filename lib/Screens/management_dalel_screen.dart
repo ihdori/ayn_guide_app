@@ -24,12 +24,12 @@ class ManagementDalelScreen extends ConsumerWidget {
           crossAxisCount: 2,
           children: [
             DalelContainer(
-              imagePath: 'assets/images/app_icons/ayn.png',
-              dalelName: "ضوابط عقد\nالمؤسسة",
+              imagePath: 'assets/images/app_icons/contract.png',
+              dalelName: "ضوابط عقد المؤسسة",
               move: () {},
             ),
             DalelContainer(
-              imagePath: 'assets/images/app_icons/ayn.png',
+              imagePath: 'assets/images/app_icons/warning.png',
               dalelName: "الاخطاء المتكررة",
               move: () {},
             ),
@@ -41,12 +41,12 @@ class ManagementDalelScreen extends ConsumerWidget {
               },
             ),
             DalelContainer(
-              imagePath: 'assets/images/app_icons/ayn.png',
+              imagePath: 'assets/images/app_icons/kufalaa_icon.png',
               dalelName: "اجراءات الكفلاء",
               move: () {},
             ),
             DalelContainer(
-              imagePath: 'assets/images/app_icons/ayn.png',
+              imagePath: 'assets/images/app_icons/donation.png',
               dalelName: "اجراءات التبرعات",
               move: () {},
             ),

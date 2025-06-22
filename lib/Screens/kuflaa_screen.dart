@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class KuflaaScreen extends ConsumerWidget {
   KuflaaScreen({super.key});
   KufalaaDatabaseHelper kufalaaDb = KufalaaDatabaseHelper();
+  GlobalKey<FormState> _kufalaaKey = GlobalKey<FormState>();
 
   //TextField Controlers
   final _nameControler = TextEditingController();
@@ -88,6 +89,8 @@ class KuflaaScreen extends ConsumerWidget {
 
   Future<dynamic> showNewKafeelBottomSheet(BuildContext context) {
     return showModalBottomSheet(
+      enableDrag: true,
+      isDismissible: false,
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
@@ -99,89 +102,100 @@ class KuflaaScreen extends ConsumerWidget {
               ),
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 18),
-                height: MediaQuery.sizeOf(context).height * 0.6,
+                height: MediaQuery.sizeOf(context).height * 0.64,
                 child: Directionality(
                   textDirection: TextDirection.rtl,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              _adressControler.clear();
-                              _kafalaCostControler.clear();
-                              _nameControler.clear();
-                              _phoneNumberControler.clear();
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(Icons.close, size: 32),
-                          ),
-                        ],
-                      ),
-                      CustomTextField(
-                        controller: _nameControler,
-                        lable: "اسم الكفيل",
-                        hint: "محمد جواد علي",
-                      ),
-                      CustomTextField(
-                        textInputType: TextInputType.phone,
-                        controller: _phoneNumberControler,
-                        lable: "رقم هاتف الكفيل",
-                        hint: "07806233291",
-                      ),
-                      CustomTextField(
-                        controller: _adressControler,
-                        lable: "عنوان الكفيل",
-                        hint: "الناصرية/شارع الشيباني/قرب عصير تايم",
-                      ),
-                      CustomTextField(
-                        textInputType: TextInputType.number,
-                        controller: _kafalaCostControler,
-                        lable: "مبلغ الكفالة",
-                        hint: "95,000",
-                      ),
-                      CustomLargeButton(
-                        text: 'إضافة الكفيل',
-                        onTap: () async {
-                          final now = DateTime.now().toIso8601String();
-                          final rawAmount = _kafalaCostControler.text.trim();
-                          final amount =
-                              int.tryParse(
-                                rawAmount
-                                    .replaceAll('٠', '0')
-                                    .replaceAll('١', '1')
-                                    .replaceAll('٢', '2')
-                                    .replaceAll('٣', '3')
-                                    .replaceAll('٤', '4')
-                                    .replaceAll('٥', '5')
-                                    .replaceAll('٦', '6')
-                                    .replaceAll('٧', '7')
-                                    .replaceAll('٨', '8')
-                                    .replaceAll('٩', '9')
-                                    .replaceAll(RegExp(r'[^\d]'), ''),
-                              ) ??
-                              0;
-                          await kufalaaDb.insert('''
-  INSERT INTO all_kufalaa (
-    kafeel_name,
-    kafeel_address,
-    kafeel_phone_number,
-    kafeel_monthly_payment,
-    created_at
-  ) VALUES (
-    "${_nameControler.text}",
-    "${_adressControler.text}",
-    "${_phoneNumberControler.text}",
-    $amount,
-    "$now"
-  )
-''');
+                  child: Form(
+                    key: _kufalaaKey,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                _adressControler.clear();
+                                _kafalaCostControler.clear();
+                                _nameControler.clear();
+                                _phoneNumberControler.clear();
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(Icons.close, size: 32),
+                            ),
+                          ],
+                        ),
+                        CustomTextField(
+                          validator: (value) {},
+                          controller: _nameControler,
+                          lable: "اسم الكفيل",
+                          hint: "محمد جواد علي",
+                        ),
+                        CustomTextField(
+                          validator: () {},
+                          textInputType: TextInputType.phone,
+                          controller: _phoneNumberControler,
+                          lable: "رقم هاتف الكفيل",
+                          hint: "07806233291",
+                        ),
+                        CustomTextField(
+                          validator: () {},
+                          controller: _adressControler,
+                          lable: "عنوان الكفيل",
+                          hint: "الناصرية/شارع الشيباني/قرب عصير تايم",
+                        ),
+                        CustomTextField(
+                          validator: () {},
 
-                          ref.refresh(kufalaaDbProvider);
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
+                          textInputType: TextInputType.number,
+                          controller: _kafalaCostControler,
+                          lable: "مبلغ الكفالة",
+                          hint: "95,000",
+                        ),
+                        CustomLargeButton(
+                          text: 'إضافة الكفيل',
+                          onTap: () async {
+                            if (_kufalaaKey.currentState!.validate()) {
+                              final now = DateTime.now().toIso8601String();
+                              final rawAmount = _kafalaCostControler.text
+                                  .trim();
+                              final amount =
+                                  int.tryParse(
+                                    rawAmount
+                                        .replaceAll('٠', '0')
+                                        .replaceAll('١', '1')
+                                        .replaceAll('٢', '2')
+                                        .replaceAll('٣', '3')
+                                        .replaceAll('٤', '4')
+                                        .replaceAll('٥', '5')
+                                        .replaceAll('٦', '6')
+                                        .replaceAll('٧', '7')
+                                        .replaceAll('٨', '8')
+                                        .replaceAll('٩', '9')
+                                        .replaceAll(RegExp(r'[^\d]'), ''),
+                                  ) ??
+                                  0;
+                              await kufalaaDb.insert('''
+                      INSERT INTO all_kufalaa (
+                        kafeel_name,
+                        kafeel_address,
+                        kafeel_phone_number,
+                        kafeel_monthly_payment,
+                        created_at
+                      ) VALUES (
+                        "${_nameControler.text}",
+                        "${_adressControler.text}",
+                        "${_phoneNumberControler.text}",
+                        $amount,
+                        "$now"
+                      )
+                    ''');
+
+                              // ref.refresh(kufalaaDbProvider);
+                              Navigator.pop(context);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

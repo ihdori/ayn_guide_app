@@ -24,7 +24,7 @@ class PosScreen extends ConsumerWidget {
               move: () {},
             ),
             DalelContainer(
-              imagePath: 'assets/images/app_icons/ayn.png',
+              imagePath: 'assets/images/app_icons/kafala.png',
               dalelName: "الكفالات",
               move: () {},
             ),
@@ -34,7 +34,7 @@ class PosScreen extends ConsumerWidget {
               move: () {},
             ),
             DalelContainer(
-              imagePath: 'assets/images/app_icons/ayn.png',
+              imagePath: 'assets/images/app_icons/campagin.png',
               dalelName: "الحملات",
               move: () {
                 ref.read(catigoryId.notifier).state = 2;
